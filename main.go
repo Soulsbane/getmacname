@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	"github.com/levigross/grequests"
 	"github.com/urfave/cli"
@@ -26,7 +27,14 @@ func main() {
 	app.Action = func(c *cli.Context) error {
 		if c.NArg() > 0 {
 			var address = c.Args().Get(0)
-			getMacAddressName(address)
+
+			// INFO Could probably use a regex here to determine the validity of the passed MAC Address.
+			if strings.Count(address, ":") == 5 {
+				getMacAddressName(address)
+			} else {
+				fmt.Println("Invalid MAC Address!")
+			}
+
 		}
 
 		return nil
