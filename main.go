@@ -12,6 +12,7 @@ func getMacAddressName(address string) {
 	resp, err := grequests.Get("https://api.macvendors.com/"+address, nil)
 
 	if err != nil {
+		fmt.Println("Error: ", err)
 	}
 
 	fmt.Println(resp.String())
@@ -22,9 +23,18 @@ func main() {
 	app.Name = "getmacname"
 	app.Usage = "HELP"
 
+	app.Action = func(c *cli.Context) error {
+		if c.NArg() > 0 {
+			var address = c.Args().Get(0)
+			getMacAddressName(address)
+		}
+
+		return nil
+	}
+
 	err := app.Run(os.Args)
 
 	if err != nil {
-		getMacAddressName("FC:FB:FB:01:FA:21")
+		fmt.Println(err)
 	}
 }
