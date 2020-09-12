@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"os"
 	"regexp"
 
+	"github.com/alexflint/go-arg"
 	"github.com/levigross/grequests"
-	"github.com/urfave/cli"
 )
 
 func getMacAddressName(address string) {
@@ -25,29 +24,20 @@ func isValidAddressFormat(address string) bool {
 }
 
 func main() {
-	app := cli.NewApp()
-	app.Name = "getmacname"
-	app.Usage = "HELP"
-
-	app.Action = func(c *cli.Context) error {
-		if c.NArg() > 0 {
-			var address = c.Args().Get(0)
-			var isValidAddress = isValidAddressFormat(address)
-
-			if isValidAddress == true {
-				getMacAddressName(address)
-			} else {
-				fmt.Println("Invalid MAC Address!")
-			}
-
-		}
-
-		return nil
+	var args struct {
+		Address string `arg:"positional, required"`
 	}
 
-	err := app.Run(os.Args)
+	arg.MustParse(&args)
 
-	if err != nil {
-		fmt.Println(err)
+	if len(args.Address) > 0 {
+		var isValidAddress = isValidAddressFormat(args.Address)
+
+		if isValidAddress == true {
+			getMacAddressName(args.Address)
+		} else {
+			fmt.Println("Invalid MAC Address!")
+		}
+
 	}
 }
