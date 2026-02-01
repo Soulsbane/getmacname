@@ -1,2 +1,1 @@
-getmacname
-vendor/
+cmd/getmacname/getmacname
