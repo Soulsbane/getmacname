@@ -31,7 +31,7 @@ func main() {
 	if len(args.Address) > 0 {
 		var isValidAddress = isValidAddressFormat(args.Address)
 
-		if isValidAddress == true {
+		if isValidAddress {
 			getMacAddressName(args.Address)
 		} else {
 			fmt.Println("Invalid MAC Address!")
