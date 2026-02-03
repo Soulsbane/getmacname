@@ -24,9 +24,7 @@ func isValidAddressFormat(address string) bool {
 }
 
 func main() {
-	var args struct {
-		Address string `arg:"positional, required"`
-	}
+	var args ProgramArgs
 
 	arg.MustParse(&args)
 
