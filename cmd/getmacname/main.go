@@ -2,20 +2,28 @@ package main
 
 import (
 	"fmt"
+	"io"
+	"net/http"
 	"regexp"
 
 	"github.com/alexflint/go-arg"
-	"github.com/levigross/grequests"
 )
 
 func getMacAddressName(address string) {
-	resp, err := grequests.Get("https://api.macvendors.com/"+address, nil)
+	resp, err := http.Get("https://api.macvendors.com/" + address)
 
 	if err != nil {
 		fmt.Println("Error: ", err)
 	}
 
-	fmt.Println(resp.String())
+	defer resp.Body.Close()
+	body, err := io.ReadAll(resp.Body)
+
+	if err != nil {
+		fmt.Println("Error: ", err)
+	}
+
+	fmt.Println(string(body))
 }
 
 func isValidAddressFormat(address string) bool {
