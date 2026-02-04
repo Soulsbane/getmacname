@@ -9,8 +9,10 @@ import (
 	"github.com/alexflint/go-arg"
 )
 
+const addressURL = "https://api.macvendors.com/"
+
 func getMacAddressName(address string) {
-	resp, err := http.Get("https://api.macvendors.com/" + address)
+	resp, err := http.Get(addressURL + address)
 
 	if err != nil {
 		fmt.Println("Error: ", err)
